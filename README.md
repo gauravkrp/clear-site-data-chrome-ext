@@ -7,6 +7,7 @@ A Chrome extension that clears site data (cookies, cache, localStorage, etc.) fo
 - Only affects the current site you're on
 - Simple one-click operation
 - Visual feedback with loading spinner
+- Reloads the page after clearing
 
 ## Installation
 1. Clone this repository
