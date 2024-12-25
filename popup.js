@@ -2,6 +2,7 @@ document.getElementById('clearData').addEventListener('click', async () => {
 	const button = document.getElementById('clearData');
 	const status = document.getElementById('status');
 	const spinner = document.getElementById('spinner');
+	const reloadToggle = document.getElementById('reloadTab');
 	
 	// Disable button and show spinner
 	button.disabled = true;
@@ -13,7 +14,7 @@ document.getElementById('clearData').addEventListener('click', async () => {
 		// Get the current tab's URL
 		const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 		const url = new URL(tab.url);
-		const origin = url.origin;  // This gets just the protocol + domain (e.g., https://example.com)
+		const origin = url.origin;
 		
 		// Clear data only for the current site
 		await chrome.browsingData.remove({
@@ -32,23 +33,38 @@ document.getElementById('clearData').addEventListener('click', async () => {
 		status.textContent = 'Site data cleared!';
 		status.classList.add('success');
 
-		// Reset after 2 seconds
+		// Reload tab if toggle is checked
+		if (reloadToggle.checked) {
+			await chrome.tabs.reload(tab.id);
+		}
+
+		// Auto close popup after success
 		setTimeout(() => {
-			status.textContent = '';
-			status.className = 'status';
-			button.disabled = false;
-		}, 2000);
+			window.close();
+		}, 1000);
+
 	} catch (error) {
 		// Show error message
 		spinner.classList.remove('show');
 		status.textContent = 'Error: ' + error.message;
 		status.classList.add('error');
 		
-		// Reset after 3 seconds
+		// Reset after 1.5 seconds
 		setTimeout(() => {
 			status.textContent = '';
 			status.className = 'status';
 			button.disabled = false;
-		}, 3000);
+		}, 1500);
 	}
+});
+
+// Save toggle state
+document.getElementById('reloadTab').addEventListener('change', (e) => {
+	chrome.storage.local.set({ reloadTabEnabled: e.target.checked });
+});
+
+// Load saved toggle state
+document.addEventListener('DOMContentLoaded', async () => {
+	const { reloadTabEnabled = true } = await chrome.storage.local.get('reloadTabEnabled');
+	document.getElementById('reloadTab').checked = reloadTabEnabled;
 });

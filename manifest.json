@@ -5,7 +5,8 @@
   "description": "Clear site data with one click - removes cookies, cache, and local storage for the current site only.",
   "permissions": [
     "activeTab",
-    "browsingData"
+    "browsingData",
+    "storage"
   ],
   "action": {
     "default_popup": "popup.html",
