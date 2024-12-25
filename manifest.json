@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Site Data Cleaner",
   "version": "1.0",
-  "description": "Clear site data with one click",
+  "description": "Clear site data with one click - removes cookies, cache, and local storage for the current site only.",
   "permissions": [
     "activeTab",
     "browsingData"
@@ -19,5 +19,7 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  }
+  },
+  "author": "Gaurav Pandey",
+  "homepage_url": "https://github.com/gauravkrp/site-data-cleaner"
 } 
